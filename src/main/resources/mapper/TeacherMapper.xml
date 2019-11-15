@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.mapper.TeacherMapper">
+
+    <resultMap id="BaseListMap" type="com.java.bean.Teacher">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="subject" column="subject" jdbcType="TINYINT"/>
+        <collection property="students" column="id" ofType="com.java.bean.Student"
+                    select="com.java.mapper.StudentMapper.listStudentByTeacherId">
+        </collection>
+    </resultMap>
+
+    <resultMap id="BaseResultMap" type="com.java.bean.Teacher">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="subject" column="subject" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      id, name, subject
+    </sql>
+
+    <!--查询教师信息列表-->
+    <select id="listTeacher" resultMap="BaseListMap">
+        select
+        <include refid="Base_Column_List"/>
+        from teacher
+    </select>
+
+    <!--查询教师信息-->
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM teacher
+        WHERE id = #{id}
+    </select>
+
+    <!--新增教师信息-->
+    <insert id="insert" parameterType="com.java.bean.Teacher">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            select UUID_SHORT()
+        </selectKey>
+        insert into teacher(
+        <include refid="Base_Column_List"/>
+        ) values (
+        #{id,jdbcType=BIGINT},
+        #{name,jdbcType=VARCHAR},
+        #{subject,jdbcType=TINYINT}
+        )
+    </insert>
+
+    <!--修改教师信息-->
+    <update id="updateById" parameterType="com.java.bean.Teacher">
+        update teacher
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="subject != null">
+                subject = #{subject,jdbcType=TINYINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--删除教师信息-->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from teacher
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+</mapper>

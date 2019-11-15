@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.java.mapper.StudentMapper">
+
+    <resultMap id="BaseListMap" type="com.java.bean.Student">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="birthdate" column="birthdate" jdbcType="DATE"/>
+        <association property="teacher" column="teacher_id" javaType="com.java.bean.Teacher"
+                     select="com.java.mapper.TeacherMapper.selectById">
+        </association>
+    </resultMap>
+
+    <resultMap id="BaseResultMap" type="com.java.bean.Student">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="birthdate" column="birthdate" jdbcType="DATE"/>
+        <result property="teacherId" column="teacher_id" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+      id, name, birthdate, teacher_id
+    </sql>
+
+    <!--查询学生信息列表-->
+    <select id="listStudent" resultMap="BaseListMap">
+        select
+        <include refid="Base_Column_List"/>
+        from student
+    </select>
+
+    <!--根据教师id查询学生信息列表-->
+    <select id="listStudentByTeacherId" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from student
+        where teacher_id = #{teacherId,jdbcType=BIGINT}
+    </select>
+
+    <!--查询学生信息-->
+    <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from student
+        where id = #{id}
+    </select>
+
+    <!--新增学生信息-->
+    <insert id="insert" parameterType="com.java.bean.Student">
+        <selectKey keyProperty="id" resultType="java.lang.Long" order="BEFORE">
+            select UUID_SHORT()
+        </selectKey>
+        insert into student(
+        <include refid="Base_Column_List"/>
+        ) values (
+        #{id,jdbcType=BIGINT},
+        #{name,jdbcType=VARCHAR},
+        #{birthdate,jdbcType=DATE},
+        #{teacherId,jdbcType=BIGINT}
+        )
+    </insert>
+
+    <!--修改学生信息-->
+    <update id="updateById" parameterType="com.java.bean.Student">
+        update student
+        <set>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="birthdate != null">
+                birthdate = #{birthdate,jdbcType=DATE},
+            </if>
+            <if test="teacherId != null">
+                teacher_id = #{teacherId,jdbcType=BIGINT},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <!--删除学生信息-->
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from student
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+</mapper>

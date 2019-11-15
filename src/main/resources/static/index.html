@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <script src="js/jquery.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#login").click(function () {
+                $.ajax({
+                    type: "post",
+                    url: "/teacher/saveTeacher",
+                    data: {"name": "李老师", "subject": 2},
+                    success: function (data) {
+                        alert(data.flag);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+首页
+<button id="login">登录</button>
+</body>
+</html>

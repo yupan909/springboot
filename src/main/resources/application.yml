@@ -1,0 +1,103 @@
+
+spring:
+  # -------指定激活哪一个环境的配置文件
+  profiles:
+    active: dev
+
+  # ========= 数据源配置
+  datasource:
+    # 基本配置
+    url: jdbc:mysql://192.168.142.130:3306/springboot?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: password
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 其他配置
+    initialSize: 5  # 初始值
+    minIdle: 5      # 最小空闲值
+    maxActive: 20   # 最大连接数
+    maxWait: 60000  # 指定连接池等待连接返回的最大等待时间，毫秒单位.
+    timeBetweenEvictionRunsMillis: 60000  # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    minEvictableIdleTimeMillis: 300000    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    validationQuery: SELECT 1              # 指定获取连接时连接校验的sql查询语句
+    testWhileIdle: true                    # 当连接空闲时，是否执行连接测试.
+    testOnBorrow: false                    # 当从连接池借用连接时，是否测试该连接.
+    testOnReturn: false                     # 在连接归还到连接池时是否测试该连接.
+    # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,slf4j
+    # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+
+  # ========= redis配置
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 0
+    host: 192.168.142.130
+    port: 6379
+
+  # ========= rabbitmq配置
+  rabbitmq:
+    host: 192.168.142.130
+    port: 5672
+    username: guest
+    password: guest
+
+  # ========= elasticsearch配置
+#  data:
+#    elasticsearch:
+#      cluster-name: elasticsearch       #集群名称，默认的是elasticsearch
+#      cluster-nodes: 192.168.142.130:9300    #节点的地址 注意api模式下端口号是9300，千万不要写成9200
+#      repositories:
+#        enabled: true
+
+  # ========= elasticsearch客户端jest url配置
+  elasticsearch:
+    jest:
+      uris: http://192.168.142.130:9200
+
+  # ========= 邮件
+  mail:
+    host: smtp.qq.com
+    username: 772122030@qq.com
+    password: rkmbzurwulksbcbf
+    default-encoding: utf-8
+    properties:
+      mail:
+        smtp:
+          ssl:
+           enable: true
+
+# MyBatis配置
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.java.bean     # 批量设置别名：就是在mapper.xml文件中直接写类名，也可以不用写全路径名
+
+# Pagehelper插件配置
+pagehelper:
+  helper-dialect: mysql   # 数据库方言
+  page-size-zero: true    # 设置为true时，如果pageSize=0或者RowBounds.limit = 0就会查询出全部的结果
+  reasonable: true        # 启用合理化时，如果pageNum<1会查询第一页，如果pageNum>pages会查询最后一页
+  support-methods-arguments: true  # 支持通过Mapper接口参数来传递分页参数
+
+
+
+#### 开发环境
+---
+spring:
+  profiles: dev
+server:
+  port: 8080
+
+#### 测试环境
+---
+spring:
+  profiles: test
+server:
+  port: 8088
+
+#### 生产环境
+---
+spring:
+  profiles: prod
+server:
+  port: 7001

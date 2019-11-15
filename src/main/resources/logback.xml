@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- 设置上下文名称  -->
+    <contextName>SpringBootDemo</contextName>
+
+    <!--日志输出到控制台 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger Line:%-3L - %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 生产环境下，将此级别配置为适合的级别，以免日志文件太多或影响程序性能 -->
+    <root level="info">
+        <!-- 生产环境将请stdout去掉 -->
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>
