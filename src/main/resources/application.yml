@@ -42,6 +42,11 @@ spring:
     username: guest
     password: guest
 
+  # ========= mongodb配置
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/springboot
+
   # ========= elasticsearch配置
 #  data:
 #    elasticsearch:

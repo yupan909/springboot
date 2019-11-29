@@ -51,6 +51,12 @@
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 
+		<!-- 支持mongodb -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+
 		<!--支持ElasticSearch-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

@@ -2,12 +2,10 @@ package com.java.springbootweb;
 
 import com.alibaba.fastjson.JSON;
 import com.java.bean.Student;
-import com.java.bean.base.Query;
 import com.java.config.elasticsearch.ElasticSearchUtil;
-import com.java.config.elasticsearch.Employee;
-//import com.java.config.elasticsearch.EmployeeRepository;
 import com.java.config.mail.MailService;
-import com.java.config.rabbitmq.RabbitMqCustomer;
+import com.java.config.mongodb.MongoPO;
+import com.java.config.mongodb.MongoService;
 import com.java.config.rabbitmq.RabbitMqProvider;
 import com.java.config.redis.RedisEnum;
 import com.java.config.redis.RedisKeyGenerator;
@@ -24,6 +22,8 @@ import javax.sql.DataSource;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+//import com.java.config.elasticsearch.EmployeeRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -49,6 +49,9 @@ public class SpringbootWebApplicationTests {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private MongoService<MongoPO> mongoService;
 
     @Test
     public void contextLoads() {
@@ -110,6 +113,14 @@ public class SpringbootWebApplicationTests {
         files.add(new File("E:/公司域.txt"));
         files.add(new File("E:/酒类一.jpg"));
         mailService.sendMail("506424124@qq.com", "开会通知", "今天下午4点开会！", files);
+    }
+
+    @Test
+    public void mongodbTest() throws Exception {
+        MongoPO mongoPO = new MongoPO();
+        mongoPO.setAge(19);
+        List<MongoPO> list = mongoService.list(mongoPO, 1, 5, MongoPO.class);
+        System.out.println(JSON.toJSONString(list));
     }
 
 }
