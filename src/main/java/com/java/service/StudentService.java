@@ -1,10 +1,8 @@
 package com.java.service;
 
 import com.github.pagehelper.PageInfo;
-import com.java.bean.base.Query;
 import com.java.bean.Student;
-
-import java.util.List;
+import com.java.bean.StudentSO;
 
 /**
  * 学生管理接口类
@@ -17,10 +15,9 @@ public interface StudentService {
     /**
      * 查询学生信息列表
      *
-     * @param query
      * @return
      */
-    PageInfo<Student> listStudent(Query query);
+    PageInfo<Student> listStudent(StudentSO studentSO);
 
     /**
      * 查询学生信息
@@ -49,5 +46,5 @@ public interface StudentService {
      *
      * @param id
      */
-    void removeStudent(Long id);
+    void deleteStudent(Long id);
 }

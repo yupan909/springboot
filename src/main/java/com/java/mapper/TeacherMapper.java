@@ -1,9 +1,8 @@
 package com.java.mapper;
 
+import com.github.pagehelper.Page;
 import com.java.bean.Teacher;
-import com.java.bean.base.Query;
-
-import java.util.List;
+import com.java.bean.TeacherSO;
 
 /**
  * 教师管理Mapper
@@ -16,10 +15,9 @@ public interface TeacherMapper {
     /**
      * 查询教师信息列表
      *
-     * @param query
      * @return
      */
-    List<Teacher> listTeacher(Query query);
+    Page<Teacher> listTeacher(TeacherSO teacherSO);
 
     /**
      * 查询教师信息

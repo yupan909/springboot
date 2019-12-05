@@ -1,14 +1,14 @@
 package com.java.service.impl;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.java.bean.Teacher;
-import com.java.bean.base.Query;
+import com.java.bean.TeacherSO;
+import com.java.mapper.StudentMapper;
 import com.java.mapper.TeacherMapper;
 import com.java.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 教师管理接口实现类
@@ -22,17 +22,18 @@ public class TeacherServiceImpl implements TeacherService {
     @Autowired
     private TeacherMapper teacherMapper;
 
+    @Autowired
+    private StudentMapper studentMapper;
+
     /**
      * 查询教师信息列表
      *
-     * @param query
      * @return
      */
     @Override
-    public PageInfo<Teacher> listTeacher(Query query) {
-        List<Teacher> teacherList = teacherMapper.listTeacher(query);
-        PageInfo<Teacher> pageInfo = new PageInfo<>(teacherList);
-        return pageInfo;
+    public PageInfo<Teacher> listTeacher(TeacherSO teacherSO) {
+        Page<Teacher> teacherList = teacherMapper.listTeacher(teacherSO);
+        return teacherList.toPageInfo();
     }
 
     /**
@@ -72,7 +73,7 @@ public class TeacherServiceImpl implements TeacherService {
      * @param id
      */
     @Override
-    public void removeTeacher(Long id) {
+    public void deleteTeacher(Long id) {
         teacherMapper.deleteById(id);
     }
 }

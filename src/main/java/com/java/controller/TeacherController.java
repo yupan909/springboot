@@ -3,8 +3,8 @@ package com.java.controller;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import com.java.bean.Teacher;
+import com.java.bean.TeacherSO;
 import com.java.bean.base.BaseResult;
-import com.java.bean.base.Query;
 import com.java.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +25,11 @@ public class TeacherController {
     /**
      * 查询教师信息列表
      *
-     * @param query
      * @return
      */
     @PostMapping("/listTeacher")
-    public BaseResult listTeacher(Query query) {
-        PageInfo<Teacher> pageInfo = teacherService.listTeacher(query);
+    public BaseResult listTeacher(@RequestBody TeacherSO teacherSO) {
+        PageInfo<Teacher> pageInfo = teacherService.listTeacher(teacherSO);
         return new BaseResult<>(pageInfo);
     }
 
@@ -53,7 +52,7 @@ public class TeacherController {
      * @return
      */
     @PostMapping("/saveTeacher")
-    public BaseResult saveTeacher(Teacher teacher) {
+    public BaseResult saveTeacher(@RequestBody Teacher teacher) {
         System.out.println(JSON.toJSONString(teacher));
         teacherService.saveTeacher(teacher);
         return BaseResult.successResult();
@@ -66,7 +65,7 @@ public class TeacherController {
      * @return
      */
     @PostMapping("/updateTeacher")
-    public BaseResult updateTeacher(Teacher teacher) {
+    public BaseResult updateTeacher(@RequestBody Teacher teacher) {
         System.out.println(JSON.toJSONString(teacher));
         teacherService.updateTeacher(teacher);
         return BaseResult.successResult();
@@ -78,9 +77,9 @@ public class TeacherController {
      * @param id
      * @return
      */
-    @GetMapping("/removeTeacher/{id}")
-    public BaseResult removeTeacher(@PathVariable("id") Long id) {
-        teacherService.removeTeacher(id);
+    @GetMapping("/deleteTeacher/{id}")
+    public BaseResult deleteTeacher(@PathVariable("id") Long id) {
+        teacherService.deleteTeacher(id);
         return BaseResult.successResult();
     }
 

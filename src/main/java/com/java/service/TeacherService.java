@@ -2,7 +2,7 @@ package com.java.service;
 
 import com.github.pagehelper.PageInfo;
 import com.java.bean.Teacher;
-import com.java.bean.base.Query;
+import com.java.bean.TeacherSO;
 
 /**
  * 教师
@@ -15,10 +15,9 @@ public interface TeacherService {
     /**
      * 查询教师信息列表
      *
-     * @param query
      * @return
      */
-    PageInfo<Teacher> listTeacher(Query query);
+    PageInfo<Teacher> listTeacher(TeacherSO teacherSO);
 
     /**
      * 查询教师信息
@@ -47,5 +46,5 @@ public interface TeacherService {
      *
      * @param id
      */
-    void removeTeacher(Long id);
+    void deleteTeacher(Long id);
 }

@@ -2,8 +2,8 @@ package com.java.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.java.bean.Student;
+import com.java.bean.StudentSO;
 import com.java.bean.base.BaseResult;
-import com.java.bean.base.Query;
 import com.java.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,13 +23,11 @@ public class StudentController {
 
     /**
      * 查询学生信息列表
-     *
-     * @param query
      * @return
      */
     @PostMapping("/listStudent")
-    public BaseResult listStudent(Query query) {
-        PageInfo<Student> list = studentService.listStudent(query);
+    public BaseResult listStudent(@RequestBody StudentSO studentSO) {
+        PageInfo<Student> list = studentService.listStudent(studentSO);
         return new BaseResult<>(list);
     }
 
@@ -52,7 +50,7 @@ public class StudentController {
      * @return
      */
     @PostMapping("/saveStudent")
-    public BaseResult saveStudent(Student student) {
+    public BaseResult saveStudent(@RequestBody Student student) {
         studentService.saveStudent(student);
         return BaseResult.successResult();
     }
@@ -64,7 +62,7 @@ public class StudentController {
      * @return
      */
     @PostMapping("/updateStudent")
-    public BaseResult updateStudent(Student student) {
+    public BaseResult updateStudent(@RequestBody Student student) {
         studentService.updateStudent(student);
         return BaseResult.successResult();
     }
@@ -75,9 +73,9 @@ public class StudentController {
      * @param id
      * @return
      */
-    @GetMapping("/removeStudent/{id}")
-    public BaseResult removeStudent(@PathVariable("id") Long id) {
-        studentService.removeStudent(id);
+    @GetMapping("/deleteStudent/{id}")
+    public BaseResult deleteStudent(@PathVariable("id") Long id) {
+        studentService.deleteStudent(id);
         return BaseResult.successResult();
     }
 

@@ -28,6 +28,14 @@
         select
         <include refid="Base_Column_List"/>
         from teacher
+        <where>
+            <if test="name != null">
+                name like concat('%', #{name,jdbcType=VARCHAR} '%')
+            </if>
+            <if test="subject != null">
+                and subject = #{subject,jdbcType=TINYINT}
+            </if>
+        </where>
     </select>
 
     <!--查询教师信息-->

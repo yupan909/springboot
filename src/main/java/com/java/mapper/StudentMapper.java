@@ -1,7 +1,9 @@
 package com.java.mapper;
 
-import com.java.bean.base.Query;
+import com.github.pagehelper.Page;
 import com.java.bean.Student;
+import com.java.bean.StudentSO;
+import com.java.bean.base.Query;
 
 import java.util.List;
 
@@ -16,12 +18,15 @@ public interface StudentMapper {
     /**
      * 查询学生信息列表
      *
-     * @param query
      * @return
      */
-    List<Student> listStudent(Query query);
+    Page<Student> listStudent(StudentSO studentSO);
 
-
+    /**
+     * 根据教师id查询学生信息列表
+     * @param teacherId
+     * @return
+     */
     List<Student> listStudentByTeacherId(Long teacherId);
 
     /**
